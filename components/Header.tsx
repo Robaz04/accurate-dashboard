@@ -14,7 +14,7 @@ export default function Header() {
     return (
         <header className="flex items-center justify-between p-4 bg-emerald-moss text-white">
             <h1 className="text-xl font-bold">Accurate Dashboard</h1>
-            <button onClick={handleLogout} className="bg-red-500 hover:cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <button onClick={handleLogout} className="bg-red-500 hover:cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded transform transition hover:scale-105">
                 Logout
             </button>
         </header>

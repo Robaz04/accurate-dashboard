@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Currency {
   id: number;
@@ -23,9 +24,11 @@ interface SalesInvoiceItem {
 export default function SalesInvoiceDashboard() {
   const [invoices, setInvoices] = useState<SalesInvoiceItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // Filter States
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [currencyId, setCurrencyId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -39,6 +42,7 @@ export default function SalesInvoiceDashboard() {
   // Function untuk Fetching Data dengan Dynamic Query Params
   const fetchInvoices = useCallback(async () => {
     setLoading(true);
+
     try {
       const params = new URLSearchParams();
 
@@ -50,9 +54,9 @@ export default function SalesInvoiceDashboard() {
       params.append('sp.pageSize', pageSize.toString());
 
       // Search Keywords (Op: CONTAIN)
-      if (searchKeyword.trim()) {
+      if (debouncedSearch.trim()) {
         params.append('filter.keywords.op', 'CONTAIN');
-        params.append('filter.keywords.val', searchKeyword.trim());
+        params.append('filter.keywords.val', debouncedSearch.trim());
       }
 
       // Filter Currency
@@ -91,7 +95,15 @@ export default function SalesInvoiceDashboard() {
     } finally {
       setLoading(false);
     }
-  }, [page, searchKeyword, currencyId, startDate, endDate, approvalStatus, sortBy]);
+  }, [page, debouncedSearch, currencyId, startDate, endDate, approvalStatus, sortBy]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchKeyword);
+      setPage(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchKeyword]);
 
   useEffect(() => {
     fetchInvoices();
@@ -111,7 +123,7 @@ export default function SalesInvoiceDashboard() {
       <div className="bg-white p-5 rounded-2xl border border-sage-mist/30 shadow-sm space-y-4">
         <h2 className="text-sm font-bold text-forest-deep uppercase tracking-wider">Filter Data</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search Bar */}
           <div>
             <label className="block text-xs font-semibold text-emerald-moss mb-1">Cari Keyword / No. Invoice</label>
@@ -228,14 +240,20 @@ export default function SalesInvoiceDashboard() {
               </thead>
               <tbody className="divide-y divide-sage-mist/20 text-sm text-forest-deep">
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-eco-white/30 transition">
+                  <tr
+                    key={inv.id}
+                    onClick={() => router.push(`/${inv.id}`)}
+                    className="hover:bg-eco-white/30 transition hover:cursor-pointer"
+                  >
                     <td className="py-4 px-6 font-mono text-xs text-emerald-moss">{inv.id}</td>
                     <td className="py-4 px-6 font-semibold">{inv.number}</td>
                     <td className="py-4 px-6">{inv.customerNo}</td>
                     <td className="py-4 px-6">{inv.dueDateView || inv.dueDate}</td>
                     <td className="py-4 px-6 pl-12">{inv.currency?.code}</td>
                     <td className="py-4 px-6">{inv.approvalStatus}</td>
-                    <td className="py-4 px-6">{inv.totalAmount ? `${inv.currency?.symbol} ${inv.totalAmount.toLocaleString()}` : '-'}</td>
+                    <td className="py-4 px-6">
+                      {inv.totalAmount ? `${inv.currency?.symbol} ${inv.totalAmount.toLocaleString()}` : '-'}
+                    </td>
                   </tr>
                 ))}
               </tbody>
