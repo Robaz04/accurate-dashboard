@@ -117,6 +117,12 @@ export default function SalesInvoiceDashboard() {
           <h1 className="text-2xl font-bold text-forest-deep">Sales Invoices</h1>
           <p className="text-sm text-emerald-moss/80">Kelola dan filter data faktur penjualan Accurate.</p>
         </div>
+        <button
+          onClick={() => router.push('/create-sales')}
+          className="px-4 py-2 bg-raw-amber text-emerald-moss font-semibold rounded-lg shadow hover:bg-amber-600 transition cursor-pointer"
+        >
+          Buat Faktur Baru
+        </button>
       </div>
 
       {/* Dynamic Filter Bar */}

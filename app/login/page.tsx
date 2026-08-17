@@ -47,7 +47,7 @@ export default function LoginPage() {
                             Security Token
                         </label>
                         <input
-                            type="password" // Diubah ke password agar karakter token tersembunyi demi keamanan
+                            type="password" 
                             id="token"
                             value={inputToken}
                             onChange={(e) => setInputToken(e.target.value)}

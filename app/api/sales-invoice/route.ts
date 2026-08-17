@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
                     'X-Session-ID': ACCURATE_SESSION,
                     'Content-Type': 'application/json',
                 },
-                cache: 'no-store', // Memastikan data selalu fresh
+                cache: 'no-store', 
             }
         );
 
