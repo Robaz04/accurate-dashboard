@@ -10,7 +10,7 @@ export default function Sidebar() {
         {
             name: 'Sales Invoice',
             href: '/',
-            activePaths: ['/', '/create']
+            activePaths: ['/', '/create-sales']
         },
         {
             name: 'Master Customer',
@@ -22,6 +22,11 @@ export default function Sidebar() {
             href: '/items',
             activePaths: ['/items']
         },
+        {
+            name: 'Sales Receipt',
+            href: '/sales-receipt',
+            activePaths: ['/sales-receipt', '/create-receipt']
+        }
     ];
 
     return (

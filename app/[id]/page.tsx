@@ -7,6 +7,7 @@ interface DetailInvoice {
     number: string;
     transDate: string;
     dueDate: string;
+    statusOutstanding: string;
     customer?: { name: string; customerNo: string };
     currency?: { symbol: string; code: string };
     totalAmount?: number;
@@ -125,7 +126,11 @@ export default function SalesInvoiceDetailPage({ params }: { params: Promise<{ i
                         <p className="font-medium text-gray-800">{detail.currency?.code || '-'}</p>
                     </div>
                     <div>
-                        <p className="text-gray-500">Status</p>
+                        <p className="text-gray-500">Status Lunas</p>
+                        <p className="font-medium text-gray-800">{detail.statusOutstanding || '-'}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Status Approved</p>
                         <span className="inline-block px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800">
                             {detail.approvalStatus || 'APPROVED'}
                         </span>

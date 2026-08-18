@@ -121,7 +121,7 @@ export default function SalesInvoiceDashboard() {
           onClick={() => router.push('/create-sales')}
           className="px-4 py-2 bg-raw-amber text-emerald-moss font-semibold rounded-lg shadow hover:bg-amber-600 transition cursor-pointer"
         >
-          Buat Faktur Baru
+          New Invoice
         </button>
       </div>
 
@@ -240,7 +240,8 @@ export default function SalesInvoiceDashboard() {
                   <th className="py-3 px-6">Nomor Customer</th>
                   <th className="py-3 px-6">Jatuh Tempo</th>
                   <th className="py-3 px-6">Mata Uang</th>
-                  <th className="py-3 px-6">Status Persetujuan</th>
+                  <th className="py-3 px-6">Status Approval</th>
+                  <th className="py-3 px-6">Status Invoice</th>
                   <th className="py-3 px-6">Total Amount</th>
                 </tr>
               </thead>
@@ -256,6 +257,7 @@ export default function SalesInvoiceDashboard() {
                     <td className="py-4 px-6">{inv.customerNo}</td>
                     <td className="py-4 px-6">{inv.dueDateView || inv.dueDate}</td>
                     <td className="py-4 px-6 pl-12">{inv.currency?.code}</td>
+                    <td className="py-4 px-6">{inv.approvalStatus}</td>
                     <td className="py-4 px-6">{inv.approvalStatus}</td>
                     <td className="py-4 px-6">
                       {inv.totalAmount ? `${inv.currency?.symbol} ${inv.totalAmount.toLocaleString()}` : '-'}
