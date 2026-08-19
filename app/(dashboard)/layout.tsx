@@ -5,10 +5,15 @@ import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
   title: "Accurate Dashboard",
-  description: "A simple dashboard built that fetch APIs from 3rd-party services with Next.js and Tailwind CSS.",
+  description:
+    "A simple dashboard built that fetch APIs from 3rd-party services with Next.js and Tailwind CSS.",
 };
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen">
       <Sidebar />

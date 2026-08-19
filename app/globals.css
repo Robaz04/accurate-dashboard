@@ -12,11 +12,11 @@
   --font-mono: var(--font-mono), monospace;
 
   /* Custom Color Palette */
-  --color-forest-deep: #0B2F1D;
-  --color-emerald-moss: #1E5631;
-  --color-sage-mist: #A3B899;
-  --color-eco-white: #EBF2EA;
-  --color-raw-amber: #D4AF37;
+  --color-forest-deep: #0b2f1d;
+  --color-emerald-moss: #1e5631;
+  --color-sage-mist: #a3b899;
+  --color-eco-white: #ebf2ea;
+  --color-raw-amber: #d4af37;
 }
 
 @media (prefers-color-scheme: dark) {

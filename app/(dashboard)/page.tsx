@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface Currency {
   id: number;
@@ -27,13 +27,13 @@ export default function SalesInvoiceDashboard() {
   const router = useRouter();
 
   // Filter States
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [currencyId, setCurrencyId] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [approvalStatus, setApprovalStatus] = useState('');
-  const [sortBy, setSortBy] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [currencyId, setCurrencyId] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [approvalStatus, setApprovalStatus] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   // Pagination States
   const [page, setPage] = useState(1);
@@ -47,39 +47,42 @@ export default function SalesInvoiceDashboard() {
       const params = new URLSearchParams();
 
       // Fields yang ingin diambil
-      params.append('fields', 'id,number,dueDate,dueDateView,currency,totalAmount,customerNo,approvalStatus');
+      params.append(
+        "fields",
+        "id,number,dueDate,dueDateView,currency,totalAmount,customerNo,approvalStatus",
+      );
 
       // Pagination
-      params.append('sp.page', page.toString());
-      params.append('sp.pageSize', pageSize.toString());
+      params.append("sp.page", page.toString());
+      params.append("sp.pageSize", pageSize.toString());
 
       // Search Keywords (Op: CONTAIN)
       if (debouncedSearch.trim()) {
-        params.append('filter.keywords.op', 'CONTAIN');
-        params.append('filter.keywords.val', debouncedSearch.trim());
+        params.append("filter.keywords.op", "CONTAIN");
+        params.append("filter.keywords.val", debouncedSearch.trim());
       }
 
       // Filter Currency
       if (currencyId) {
-        params.append('filter.currencyId.op', 'EQUAL');
-        params.append('filter.currencyId.val', currencyId);
+        params.append("filter.currencyId.op", "EQUAL");
+        params.append("filter.currencyId.val", currencyId);
       }
 
       // Filter Due Date (Rentang Tanggal)
       if (startDate && endDate) {
-        params.append('filter.dueDate.op', 'BETWEEN');
-        params.append('filter.dueDate.val[0]', startDate);
-        params.append('filter.dueDate.val[1]', endDate);
+        params.append("filter.dueDate.op", "BETWEEN");
+        params.append("filter.dueDate.val[0]", startDate);
+        params.append("filter.dueDate.val[1]", endDate);
       }
 
       // Filter Approval Status
       if (approvalStatus) {
-        params.append('approvalStatusFilter', JSON.stringify([approvalStatus]));
+        params.append("approvalStatusFilter", JSON.stringify([approvalStatus]));
       }
 
       // Sorting
       if (sortBy) {
-        params.append('sort', `${sortBy === 'asc' ? '+' : '-'}totalAmount`);
+        params.append("sort", `${sortBy === "asc" ? "+" : "-"}totalAmount`);
       }
 
       const res = await fetch(`/api/sales-invoice?${params.toString()}`);
@@ -91,11 +94,19 @@ export default function SalesInvoiceDashboard() {
         setInvoices([]);
       }
     } catch (err) {
-      console.error('Failed to fetch invoices:', err);
+      console.error("Failed to fetch invoices:", err);
     } finally {
       setLoading(false);
     }
-  }, [page, debouncedSearch, currencyId, startDate, endDate, approvalStatus, sortBy]);
+  }, [
+    page,
+    debouncedSearch,
+    currencyId,
+    startDate,
+    endDate,
+    approvalStatus,
+    sortBy,
+  ]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -114,11 +125,15 @@ export default function SalesInvoiceDashboard() {
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-sage-mist/30 shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-forest-deep">Sales Invoices</h1>
-          <p className="text-sm text-emerald-moss/80">Kelola dan filter data faktur penjualan Accurate.</p>
+          <h1 className="text-2xl font-bold text-forest-deep">
+            Sales Invoices
+          </h1>
+          <p className="text-sm text-emerald-moss/80">
+            Kelola dan filter data faktur penjualan Accurate.
+          </p>
         </div>
         <button
-          onClick={() => router.push('/create-sales')}
+          onClick={() => router.push("/create-sales")}
           className="px-4 py-2 bg-raw-amber text-emerald-moss font-semibold rounded-lg shadow hover:bg-amber-600 transition cursor-pointer"
         >
           New Invoice
@@ -127,12 +142,16 @@ export default function SalesInvoiceDashboard() {
 
       {/* Dynamic Filter Bar */}
       <div className="bg-white p-5 rounded-2xl border border-sage-mist/30 shadow-sm space-y-4">
-        <h2 className="text-sm font-bold text-forest-deep uppercase tracking-wider">Filter Data</h2>
+        <h2 className="text-sm font-bold text-forest-deep uppercase tracking-wider">
+          Filter Data
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search Bar */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Cari Keyword / No. Invoice</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Cari Keyword / No. Invoice
+            </label>
             <input
               type="text"
               placeholder="Ketik kata kunci..."
@@ -147,7 +166,9 @@ export default function SalesInvoiceDashboard() {
 
           {/* Currency Filter */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Mata Uang</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Mata Uang
+            </label>
             <select
               value={currencyId}
               onChange={(e) => {
@@ -164,7 +185,9 @@ export default function SalesInvoiceDashboard() {
 
           {/* Approval Status Filter */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Status Persetujuan</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Status Persetujuan
+            </label>
             <select
               value={approvalStatus}
               onChange={(e) => {
@@ -184,7 +207,9 @@ export default function SalesInvoiceDashboard() {
 
           {/* Start Date */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Jatuh Tempo Dari</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Jatuh Tempo Dari
+            </label>
             <input
               type="text"
               placeholder="DD/MM/YYYY"
@@ -196,7 +221,9 @@ export default function SalesInvoiceDashboard() {
 
           {/* End Date */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Jatuh Tempo Sampai</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Jatuh Tempo Sampai
+            </label>
             <input
               type="text"
               placeholder="DD/MM/YYYY"
@@ -207,7 +234,9 @@ export default function SalesInvoiceDashboard() {
           </div>
           {/* Urutkan berdasarkan total amout */}
           <div>
-            <label className="block text-xs font-semibold text-emerald-moss mb-1">Urutkan Berdasarkan Total Amount</label>
+            <label className="block text-xs font-semibold text-emerald-moss mb-1">
+              Urutkan Berdasarkan Total Amount
+            </label>
             <select
               value={sortBy}
               onChange={(e) => {
@@ -227,9 +256,13 @@ export default function SalesInvoiceDashboard() {
       {/* Data Table */}
       <div className="bg-white rounded-2xl border border-sage-mist/30 shadow-sm overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-emerald-moss font-medium">Memuat data faktur...</div>
+          <div className="p-8 text-center text-emerald-moss font-medium">
+            Memuat data faktur...
+          </div>
         ) : invoices.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">Data faktur tidak ditemukan.</div>
+          <div className="p-8 text-center text-gray-500">
+            Data faktur tidak ditemukan.
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -241,7 +274,6 @@ export default function SalesInvoiceDashboard() {
                   <th className="py-3 px-6">Jatuh Tempo</th>
                   <th className="py-3 px-6">Mata Uang</th>
                   <th className="py-3 px-6">Status Approval</th>
-                  <th className="py-3 px-6">Status Invoice</th>
                   <th className="py-3 px-6">Total Amount</th>
                 </tr>
               </thead>
@@ -252,15 +284,20 @@ export default function SalesInvoiceDashboard() {
                     onClick={() => router.push(`/${inv.id}`)}
                     className="hover:bg-eco-white/30 transition hover:cursor-pointer"
                   >
-                    <td className="py-4 px-6 font-mono text-xs text-emerald-moss">{inv.id}</td>
+                    <td className="py-4 px-6 font-mono text-xs text-emerald-moss">
+                      {inv.id}
+                    </td>
                     <td className="py-4 px-6 font-semibold">{inv.number}</td>
                     <td className="py-4 px-6">{inv.customerNo}</td>
-                    <td className="py-4 px-6">{inv.dueDateView || inv.dueDate}</td>
+                    <td className="py-4 px-6">
+                      {inv.dueDateView || inv.dueDate}
+                    </td>
                     <td className="py-4 px-6 pl-12">{inv.currency?.code}</td>
                     <td className="py-4 px-6">{inv.approvalStatus}</td>
-                    <td className="py-4 px-6">{inv.approvalStatus}</td>
                     <td className="py-4 px-6">
-                      {inv.totalAmount ? `${inv.currency?.symbol} ${inv.totalAmount.toLocaleString()}` : '-'}
+                      {inv.totalAmount
+                        ? `${inv.currency?.symbol} ${inv.totalAmount.toLocaleString()}`
+                        : "-"}
                     </td>
                   </tr>
                 ))}
